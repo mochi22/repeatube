@@ -272,6 +272,7 @@ document.getElementById('forward5').addEventListener('click', () => {
 // ---- 字幕コントロール ----
 
 document.getElementById('toggleCaption').addEventListener('click', () => {
+    console.log("subtitle button clicked");
     const container = document.querySelector('.caption-container');
     captionVisible = !captionVisible;
     container.style.display = captionVisible ? 'block' : 'none';
