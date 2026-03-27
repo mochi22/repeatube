@@ -59,6 +59,14 @@ function updateSliderFill() {
     const bPercent = (parseFloat(sliderB.value) / max) * 100;
     fill.style.left = aPercent + '%';
     fill.style.width = (bPercent - aPercent) + '%';
+    // AがBに近い場合はAを手前にしてドラッグできるようにする
+    if (bPercent - aPercent < 5) {
+        sliderA.style.zIndex = 3;
+        sliderB.style.zIndex = 2;
+    } else {
+        sliderA.style.zIndex = 1;
+        sliderB.style.zIndex = 2;
+    }
 }
 
 function initSliders() {

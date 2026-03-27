@@ -95,6 +95,26 @@ button:hover {
     outline: none;
 }
 
+#sliderA { z-index: 1; }
+#sliderB { z-index: 2; }
+
+/* デフォルトトラックを非表示 */
+.dual-slider-input::-webkit-slider-runnable-track {
+    background: transparent;
+    border: none;
+    height: 6px;
+}
+
+.dual-slider-input::-moz-range-track {
+    background: transparent;
+    border: none;
+    height: 6px;
+}
+
+.dual-slider-input::-moz-range-progress {
+    background: transparent;
+}
+
 .dual-slider-input::-webkit-slider-thumb {
     pointer-events: all;
     -webkit-appearance: none;
@@ -110,7 +130,6 @@ button:hover {
 #sliderB::-webkit-slider-thumb { background: #dc3545; }
 
 .dual-slider-input::-moz-range-thumb {
-    pointer-events: all;
     width: 20px;
     height: 20px;
     border-radius: 50%;
