@@ -16,10 +16,12 @@ function onYouTubeIframeAPIReady() {
             'playsinline': 1,
             'origin': window.location.origin,
             'enablejsapi': 1,
+            'cc_load_policy': 0,
         },
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
+            'onApiChange': onApiChange,
         }
     });
 }
@@ -37,7 +39,6 @@ document.getElementById('loadButton').addEventListener('click', () => {
         currentVideoId = videoId;
         player.loadVideoById(videoId);
         waitForDuration();
-        initializeCaptions(videoId);
     } else {
         alert('有効なYouTube URLを入力してください。');
     }
@@ -45,52 +46,12 @@ document.getElementById('loadButton').addEventListener('click', () => {
 
 // ---- 字幕関連 ----
 
-async function fetchCaptionList(videoId) {
-    try {
-        const res = await fetch(`https://www.youtube.com/api/timedtext?v=${videoId}&type=list`);
-        const text = await res.text();
-        const xml = new DOMParser().parseFromString(text, 'text/xml');
-        const tracks = [];
-        xml.querySelectorAll('track').forEach(t => {
-            tracks.push({
-                languageCode: t.getAttribute('lang_code'),
-                languageName: t.getAttribute('lang_translated') || t.getAttribute('lang_code'),
-            });
-        });
-        return tracks;
-    } catch (e) {
-        console.error('字幕リスト取得失敗:', e);
-        return [];
-    }
-}
-
-async function fetchCaptions(videoId, lang) {
-    try {
-        const res = await fetch(`https://www.youtube.com/api/timedtext?v=${videoId}&lang=${lang}`);
-        const text = await res.text();
-        const xml = new DOMParser().parseFromString(text, 'text/xml');
-        const captions = [];
-        xml.querySelectorAll('text').forEach(t => {
-            captions.push({
-                start: parseFloat(t.getAttribute('start')),
-                duration: parseFloat(t.getAttribute('dur') || '2'),
-                text: t.textContent.replace(/&#39;/g, "'").replace(/&amp;/g, '&').replace(/&quot;/g, '"'),
-            });
-        });
-        return captions;
-    } catch (e) {
-        console.error('字幕データ取得失敗:', e);
-        return [];
-    }
-}
-
-async function initializeCaptions(videoId) {
+function onApiChange() {
+    const tracks = player.getOption('captions', 'tracklist');
     const languageSelect = document.getElementById('captionLanguage');
     languageSelect.innerHTML = '';
-    captionData = [];
 
-    const tracks = await fetchCaptionList(videoId);
-    if (tracks.length === 0) {
+    if (!tracks || tracks.length === 0) {
         languageSelect.innerHTML = '<option value="">字幕なし</option>';
         return;
     }
@@ -101,19 +62,10 @@ async function initializeCaptions(videoId) {
         option.textContent = `${track.languageName} (${track.languageCode})`;
         languageSelect.appendChild(option);
     });
-
-    captionData = await fetchCaptions(videoId, tracks[0].languageCode);
 }
 
-function updateCaptions() {
-    if (!captionVisible || !isPlaying) return;
-
-    const currentTime = player.getCurrentTime();
-    const caption = captionData.find(c =>
-        currentTime >= c.start && currentTime < c.start + c.duration
-    );
-    document.getElementById('captionText').textContent = caption ? caption.text : '';
-    requestAnimationFrame(updateCaptions);
+function initializeCaptions() {
+    // ネイティブ字幕はonApiChangeで初期化されるため不要
 }
 
 // ---- プレイヤーイベント ----
@@ -272,16 +224,19 @@ document.getElementById('forward5').addEventListener('click', () => {
 // ---- 字幕コントロール ----
 
 document.getElementById('toggleCaption').addEventListener('click', () => {
-    console.log("subtitle button clicked");
-    const container = document.querySelector('.caption-container');
     captionVisible = !captionVisible;
-    container.style.display = captionVisible ? 'block' : 'none';
-    document.getElementById('captionText').textContent = '';
-    if (captionVisible && isPlaying) updateCaptions();
+    if (captionVisible) {
+        player.loadModule('captions');
+        const lang = document.getElementById('captionLanguage').value;
+        if (lang) player.setOption('captions', 'track', { languageCode: lang });
+    } else {
+        player.unloadModule('captions');
+    }
+    document.getElementById('toggleCaption').textContent =
+        captionVisible ? 'Hide subtitles' : 'Display subtitle';
 });
 
-document.getElementById('captionLanguage').addEventListener('change', async (e) => {
-    if (!currentVideoId || !e.target.value) return;
-    captionData = await fetchCaptions(currentVideoId, e.target.value);
-    document.getElementById('captionText').textContent = '';
+document.getElementById('captionLanguage').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    player.setOption('captions', 'track', { languageCode: e.target.value });
 });
