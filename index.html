@@ -19,6 +19,20 @@
             <div id="player"></div>
         </div>
         
+        <div class="slider-section">
+            <div class="dual-slider-container">
+                <div class="slider-track-bg">
+                    <div class="slider-range-fill" id="sliderRangeFill"></div>
+                </div>
+                <input type="range" id="sliderA" class="dual-slider-input" min="0" max="100" value="0" step="0.1">
+                <input type="range" id="sliderB" class="dual-slider-input" min="0" max="100" value="100" step="0.1">
+            </div>
+            <div class="slider-time-labels">
+                <span>A: <span id="sliderALabel">--:--</span></span>
+                <span>B: <span id="sliderBLabel">--:--</span></span>
+            </div>
+        </div>
+
         <div class="controls-section">
             <button id="setPointA">A点を設定</button>
             <button id="setPointB">B点を設定</button>
