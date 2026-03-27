@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>YouTube Loop Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <input type="text" id="videoUrl" placeholder="input YouTube URL">
+            <button id="loadButton">動画を読み込む</button>
+        </div>
+        
+        <div class="player-section">
+            <div id="player"></div>
+        </div>
+        
+        <div class="controls-section">
+            <button id="setPointA">A点を設定</button>
+            <button id="setPointB">B点を設定</button>
+            <button id="startLoop">ループ開始</button>
+            <button id="stopLoop">ループ停止</button>
+            <div class="playback-controls">
+                <button id="rewind5"><i class="fas fa-backward"></i> -5s</button>
+                <button id="playPause"><i class="fas fa-play"></i> start/stop</button>
+                <button id="forward5"><i class="fas fa-forward"></i> +5 s</button>
+            </div>
+        </div>
+
+        <div class="caption-section">
+            <div class="caption-container">
+                <div id="captionText"></div>
+            </div>
+            <div class="caption-controls">
+                <button id="toggleCaption">Display subtitle/subtitle off</button>
+                <select id="captionLanguage"></select>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <p>A点: <span id="pointA">未設定</span></p>
+            <p>B点: <span id="pointB">未設定</span></p>
+        </div>
+    </div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
