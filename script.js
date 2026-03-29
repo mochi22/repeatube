@@ -1,3 +1,5 @@
+console.log('script.js loaded');
+
 let player;
 let pointA = null;
 let pointB = null;
@@ -79,7 +81,6 @@ function onPlayerStateChange(event) {
         isPlaying = true;
         document.getElementById('playPause').innerHTML = '<i class="fas fa-pause"></i> 停止';
         checkLoop();
-        if (captionVisible) updateCaptions();
     } else if (event.data === YT.PlayerState.PAUSED) {
         isPlaying = false;
         document.getElementById('playPause').innerHTML = '<i class="fas fa-play"></i> 再生';
