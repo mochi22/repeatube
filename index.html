@@ -4,66 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>YouTube Loop Player</title>
+    <title>RepeaTube – YouTube Loop Player</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="container">
+
+        <header class="site-header">
+            <h1><span>Repea</span>Tube</h1>
+        </header>
+
         <div class="input-section">
-            <input type="text" id="videoUrl" placeholder="input YouTube URL">
-            <button id="loadButton">動画を読み込む</button>
+            <input type="text" id="videoUrl" placeholder="Paste a YouTube URL...">
+            <button id="loadButton">Load</button>
         </div>
-        
+
         <div class="player-section">
             <div id="player"></div>
         </div>
-        
-        <div class="slider-section">
-            <div class="dual-slider-container">
-                <div class="slider-track-bg">
-                    <div class="slider-range-fill" id="sliderRangeFill"></div>
+
+        <div class="controls-card">
+
+            <div class="slider-section">
+                <div class="dual-slider-container">
+                    <div class="slider-track-bg">
+                        <div class="slider-range-fill" id="sliderRangeFill"></div>
+                    </div>
+                    <input type="range" id="sliderA" class="dual-slider-input" min="0" max="100" value="0" step="0.1">
+                    <input type="range" id="sliderB" class="dual-slider-input" min="0" max="100" value="100" step="0.1">
                 </div>
-                <input type="range" id="sliderA" class="dual-slider-input" min="0" max="100" value="0" step="0.1">
-                <input type="range" id="sliderB" class="dual-slider-input" min="0" max="100" value="100" step="0.1">
+                <div class="slider-time-labels">
+                    <span>A: <span id="sliderALabel">--:--</span></span>
+                    <span>B: <span id="sliderBLabel">--:--</span></span>
+                </div>
             </div>
-            <div class="slider-time-labels">
-                <span>A: <span id="sliderALabel">--:--</span></span>
-                <span>B: <span id="sliderBLabel">--:--</span></span>
+
+            <div class="controls-section">
+                <button id="setPointA">Set A</button>
+                <button id="setPointB">Set B</button>
+                <button id="startLoop">Loop Start</button>
+                <button id="stopLoop">Loop Stop</button>
+                <div class="playback-controls">
+                    <button id="rewind5"><i class="fas fa-backward"></i> -5s</button>
+                    <button id="playPause"><i class="fas fa-play"></i> Play</button>
+                    <button id="forward5">+5s <i class="fas fa-forward"></i></button>
+                </div>
             </div>
-        </div>
 
-        <div class="controls-section">
-            <button id="setPointA">A点を設定</button>
-            <button id="setPointB">B点を設定</button>
-            <button id="startLoop">ループ開始</button>
-            <button id="stopLoop">ループ停止</button>
-            <div class="playback-controls">
-                <button id="rewind5"><i class="fas fa-backward"></i> -5s</button>
-                <button id="playPause"><i class="fas fa-play"></i> start/stop</button>
-                <button id="forward5"><i class="fas fa-forward"></i> +5 s</button>
+            <div class="speed-section">
+                <span class="speed-label">Speed</span>
+                <button id="speedDown">▼</button>
+                <span id="speedDisplay">1.00x</span>
+                <button id="speedUp">▲</button>
             </div>
-        </div>
 
-        <div class="speed-section">
-            <span class="speed-label">再生速度</span>
-            <button id="speedDown">▼</button>
-            <span id="speedDisplay">1.00x</span>
-            <button id="speedUp">▲</button>
-        </div>
-
-        <div class="caption-section">
-            <div class="caption-controls">
-                <button id="toggleCaption">Display subtitle</button>
+            <div class="caption-section">
+                <button id="toggleCaption">Subtitles: Off</button>
                 <select id="captionLanguage"></select>
             </div>
-        </div>
 
-        <div class="info-section">
-            <p>A点: <span id="pointA">未設定</span></p>
-            <p>B点: <span id="pointB">未設定</span></p>
-        </div>
-    </div>
+            <div class="info-section">
+                <p>A: <span id="pointA">--</span></p>
+                <p>B: <span id="pointB">--</span></p>
+            </div>
+
+        </div><!-- /.controls-card -->
+
+    </div><!-- /.container -->
+
     <section class="about-section">
         <h2>What is RepeaTube?</h2>
         <p>RepeaTube is a free online tool to repeat any YouTube video. Paste a YouTube URL to get started — then set an A-B loop at any point in the video. Perfect for learning languages, practicing music, studying sports techniques, or any skill that benefits from focused repetition.</p>
@@ -85,6 +94,7 @@
         </nav>
         <p class="footer-copy">&copy;RepeaTube <span id="footerYear"></span>. All Rights Reserved.</p>
     </footer>
+
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 </body>

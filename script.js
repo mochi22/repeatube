@@ -88,11 +88,11 @@ function onPlaybackRateChange(event) {
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         isPlaying = true;
-        document.getElementById('playPause').innerHTML = '<i class="fas fa-pause"></i> 停止';
+        document.getElementById('playPause').innerHTML = '<i class="fas fa-pause"></i> Pause';
         checkLoop();
     } else if (event.data === YT.PlayerState.PAUSED) {
         isPlaying = false;
-        document.getElementById('playPause').innerHTML = '<i class="fas fa-play"></i> 再生';
+        document.getElementById('playPause').innerHTML = '<i class="fas fa-play"></i> Play';
     }
 }
 
@@ -261,7 +261,7 @@ document.getElementById('toggleCaption').addEventListener('click', () => {
         player.unloadModule('captions');
     }
     document.getElementById('toggleCaption').textContent =
-        captionVisible ? 'Hide subtitles' : 'Display subtitle';
+        captionVisible ? 'Subtitles: On' : 'Subtitles: Off';
 });
 
 document.getElementById('captionLanguage').addEventListener('change', (e) => {
