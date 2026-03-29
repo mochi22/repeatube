@@ -24,6 +24,7 @@ function onYouTubeIframeAPIReady() {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
             'onApiChange': onApiChange,
+            'onPlaybackRateChange': onPlaybackRateChange,
         }
     });
 }
@@ -40,6 +41,8 @@ document.getElementById('loadButton').addEventListener('click', () => {
     if (videoId) {
         currentVideoId = videoId;
         player.loadVideoById(videoId);
+        currentSpeed = 1;
+        document.getElementById('speedDisplay').textContent = '1.00x';
         waitForDuration();
     } else {
         alert('有効なYouTube URLを入力してください。');
@@ -74,6 +77,11 @@ function initializeCaptions() {
 
 function onPlayerReady(event) {
     console.log('Player is ready');
+}
+
+function onPlaybackRateChange(event) {
+    currentSpeed = event.data;
+    document.getElementById('speedDisplay').textContent = currentSpeed.toFixed(2) + 'x';
 }
 
 function onPlayerStateChange(event) {
@@ -210,12 +218,13 @@ let currentSpeed = 1.0;
 
 function stepSpeed(direction) {
     const supported = player.getAvailablePlaybackRates();
-    const idx = supported.indexOf(currentSpeed);
+    const current = player.getPlaybackRate();
+    const idx = supported.indexOf(current);
+    if (idx === -1) return;
     const nextIdx = idx + direction;
     if (nextIdx < 0 || nextIdx >= supported.length) return;
-    currentSpeed = supported[nextIdx];
-    player.setPlaybackRate(currentSpeed);
-    document.getElementById('speedDisplay').textContent = currentSpeed.toFixed(2) + 'x';
+    player.setPlaybackRate(supported[nextIdx]);
+    // 表示はonPlaybackRateChangeで更新される
 }
 
 document.getElementById('speedDown').addEventListener('click', () => stepSpeed(-1));
