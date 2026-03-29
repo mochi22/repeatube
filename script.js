@@ -208,9 +208,11 @@ function checkLoop() {
 let currentSpeed = 1.0;
 
 function setSpeed(speed) {
+    console.log("setSpeed speed:", speed);
     const supported = player.getAvailablePlaybackRates();
     const clamped = Math.min(supported[supported.length - 1], Math.max(supported[0], speed));
     currentSpeed = supported.reduce((a, b) => Math.abs(b - clamped) < Math.abs(a - clamped) ? b : a);
+    console.log("currentSpeed:", currentSpeed);
     player.setPlaybackRate(currentSpeed);
     document.getElementById('speedDisplay').textContent = currentSpeed.toFixed(2) + 'x';
 }
