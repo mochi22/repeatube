@@ -10,6 +10,45 @@ let captionData = [];
 let captionVisible = false;
 let currentVideoId = null;
 
+// ---- Local Storage ----
+const LS_KEY = 'repeatube_state';
+
+function saveState() {
+    const state = {
+        url: document.getElementById('videoUrl').value,
+        videoId: currentVideoId,
+        pointA: pointA,
+        pointB: pointB,
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+    try {
+        return JSON.parse(localStorage.getItem(LS_KEY)) || {};
+    } catch {
+        return {};
+    }
+}
+
+function restorePoints(state) {
+    if (state.pointA !== null && state.pointA !== undefined) {
+        pointA = state.pointA;
+        document.getElementById('pointA').textContent = pointA.toFixed(2) + 's';
+        document.getElementById('sliderA').value = pointA;
+        document.getElementById('sliderALabel').textContent = formatTime(pointA);
+    }
+    if (state.pointB !== null && state.pointB !== undefined) {
+        pointB = state.pointB;
+        document.getElementById('pointB').textContent = pointB.toFixed(2) + 's';
+        document.getElementById('sliderB').value = pointB;
+        document.getElementById('sliderBLabel').textContent = formatTime(pointB);
+    }
+    if (state.pointA !== undefined || state.pointB !== undefined) {
+        updateSliderFill();
+    }
+}
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '360',
@@ -41,9 +80,14 @@ document.getElementById('loadButton').addEventListener('click', () => {
     const videoId = extractVideoID(url);
     if (videoId) {
         currentVideoId = videoId;
+        pointA = null;
+        pointB = null;
+        document.getElementById('pointA').textContent = '--';
+        document.getElementById('pointB').textContent = '--';
         player.loadVideoById(videoId);
         currentSpeed = 1;
         document.getElementById('speedDisplay').textContent = '1.00x';
+        saveState();
         waitForDuration();
     } else {
         alert('有効なYouTube URLを入力してください。');
@@ -78,6 +122,15 @@ function initializeCaptions() {
 
 function onPlayerReady(event) {
     console.log('Player is ready');
+    const state = loadState();
+    if (state.url) {
+        document.getElementById('videoUrl').value = state.url;
+    }
+    if (state.videoId) {
+        currentVideoId = state.videoId;
+        player.loadVideoById(state.videoId);
+        waitForDuration(() => restorePoints(state));
+    }
 }
 
 function onPlaybackRateChange(event) {
@@ -135,16 +188,17 @@ function initSliders() {
     updateSliderFill();
 }
 
-function waitForDuration() {
+function waitForDuration(callback) {
     if (!player || typeof player.getDuration !== 'function') {
-        setTimeout(waitForDuration, 500);
+        setTimeout(() => waitForDuration(callback), 500);
         return;
     }
     const duration = player.getDuration();
     if (duration > 0) {
         initSliders();
+        if (callback) callback();
     } else {
-        setTimeout(waitForDuration, 500);
+        setTimeout(() => waitForDuration(callback), 500);
     }
 }
 
@@ -155,9 +209,10 @@ document.getElementById('sliderA').addEventListener('input', () => {
         sliderA.value = parseFloat(sliderB.value) - 0.1;
     }
     pointA = parseFloat(sliderA.value);
-    document.getElementById('pointA').textContent = pointA.toFixed(2) + '秒';
+    document.getElementById('pointA').textContent = pointA.toFixed(2) + 's';
     document.getElementById('sliderALabel').textContent = formatTime(pointA);
     updateSliderFill();
+    saveState();
 });
 
 document.getElementById('sliderB').addEventListener('input', () => {
@@ -167,27 +222,30 @@ document.getElementById('sliderB').addEventListener('input', () => {
         sliderB.value = parseFloat(sliderA.value) + 0.1;
     }
     pointB = parseFloat(sliderB.value);
-    document.getElementById('pointB').textContent = pointB.toFixed(2) + '秒';
+    document.getElementById('pointB').textContent = pointB.toFixed(2) + 's';
     document.getElementById('sliderBLabel').textContent = formatTime(pointB);
     updateSliderFill();
+    saveState();
 });
 
 // ---- A/B点 ----
 
 document.getElementById('setPointA').addEventListener('click', () => {
     pointA = player.getCurrentTime();
-    document.getElementById('pointA').textContent = pointA.toFixed(2) + '秒';
+    document.getElementById('pointA').textContent = pointA.toFixed(2) + 's';
     document.getElementById('sliderA').value = pointA;
     document.getElementById('sliderALabel').textContent = formatTime(pointA);
     updateSliderFill();
+    saveState();
 });
 
 document.getElementById('setPointB').addEventListener('click', () => {
     pointB = player.getCurrentTime();
-    document.getElementById('pointB').textContent = pointB.toFixed(2) + '秒';
+    document.getElementById('pointB').textContent = pointB.toFixed(2) + 's';
     document.getElementById('sliderB').value = pointB;
     document.getElementById('sliderBLabel').textContent = formatTime(pointB);
     updateSliderFill();
+    saveState();
 });
 
 document.getElementById('startLoop').addEventListener('click', () => {
