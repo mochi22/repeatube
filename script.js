@@ -203,6 +203,21 @@ function checkLoop() {
     }
 }
 
+// ---- 再生速度 ----
+
+let currentSpeed = 1.0;
+
+function setSpeed(speed) {
+    currentSpeed = Math.round(Math.min(2.0, Math.max(0.25, speed)) * 100) / 100;
+    player.setPlaybackRate(currentSpeed);
+    document.getElementById('speedDisplay').textContent = currentSpeed.toFixed(2) + 'x';
+}
+
+document.getElementById('speedDown05').addEventListener('click', () => setSpeed(currentSpeed - 0.05));
+document.getElementById('speedDown01').addEventListener('click', () => setSpeed(currentSpeed - 0.01));
+document.getElementById('speedUp01').addEventListener('click', () => setSpeed(currentSpeed + 0.01));
+document.getElementById('speedUp05').addEventListener('click', () => setSpeed(currentSpeed + 0.05));
+
 // ---- 再生コントロール ----
 
 document.getElementById('playPause').addEventListener('click', () => {
