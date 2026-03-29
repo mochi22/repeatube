@@ -1,4 +1,5 @@
 console.log('script.js loaded');
+document.getElementById('footerYear').textContent = new Date().getFullYear();
 
 let player;
 let pointA = null;

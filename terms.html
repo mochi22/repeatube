@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service – RepeaTube</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="legal-container">
+        <h1>Terms of Service</h1>
+        <p class="legal-date">Last updated: <span id="currentYear"></span></p>
+
+        <section>
+            <h2>1. Acceptance of Terms</h2>
+            <p>By accessing or using RepeaTube ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.</p>
+        </section>
+
+        <section>
+            <h2>2. Description of Service</h2>
+            <p>RepeaTube is a free, browser-based tool that enables users to loop, repeat, and control the playback of YouTube videos. The Service is provided as-is without any warranty.</p>
+        </section>
+
+        <section>
+            <h2>3. YouTube Terms of Service</h2>
+            <p>RepeaTube uses the YouTube IFrame Player API. By using this Service, you agree to comply with <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube's Terms of Service</a>. You are solely responsible for ensuring your use of YouTube content through this Service complies with all applicable YouTube policies.</p>
+        </section>
+
+        <section>
+            <h2>4. Permitted Use</h2>
+            <p>You may use RepeaTube for personal, non-commercial purposes. You agree not to use the Service to:</p>
+            <ul>
+                <li>Violate any applicable laws or regulations</li>
+                <li>Infringe upon the intellectual property rights of others</li>
+                <li>Circumvent any YouTube access controls or restrictions</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Disclaimer of Warranties</h2>
+            <p>The Service is provided "as is" without warranties of any kind, either express or implied. We do not guarantee that the Service will be uninterrupted, error-free, or that any defects will be corrected.</p>
+        </section>
+
+        <section>
+            <h2>6. Limitation of Liability</h2>
+            <p>To the fullest extent permitted by law, RepeaTube shall not be liable for any indirect, incidental, or consequential damages arising out of or in connection with your use of the Service.</p>
+        </section>
+
+        <section>
+            <h2>7. Changes to Terms</h2>
+            <p>We reserve the right to modify these Terms at any time. Continued use of the Service after changes constitutes acceptance of the updated Terms.</p>
+        </section>
+
+        <footer class="site-footer">
+            <nav class="footer-nav">
+                <a href="index.html">HOME</a>
+                <a href="terms.html">TERMS</a>
+                <a href="privacy.html">PRIVACY</a>
+            </nav>
+            <p class="footer-copy">&copy;RepeaTube <span id="footerYear"></span>. All Rights Reserved.</p>
+        </footer>
+    </div>
+    <script>
+        const y = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = y;
+        document.getElementById('footerYear').textContent = y;
+    </script>
+</body>
+</html>

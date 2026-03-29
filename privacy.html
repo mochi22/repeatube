@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – RepeaTube</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="legal-container">
+        <h1>Privacy Policy</h1>
+        <p class="legal-date">Last updated: <span id="currentYear"></span></p>
+
+        <section>
+            <h2>1. Overview</h2>
+            <p>RepeaTube ("we", "our", or "the Service") is a free, browser-based tool that allows you to loop and control YouTube videos. We are committed to protecting your privacy. This policy explains what information we collect and how we use it.</p>
+        </section>
+
+        <section>
+            <h2>2. Information We Collect</h2>
+            <p>RepeaTube does not collect, store, or transmit any personally identifiable information. The Service runs entirely in your browser. We do not operate any servers or databases that store user data.</p>
+        </section>
+
+        <section>
+            <h2>3. YouTube and Third-Party Services</h2>
+            <p>RepeaTube uses the <a href="https://developers.google.com/youtube/iframe_api_reference" target="_blank" rel="noopener">YouTube IFrame Player API</a> to embed and play videos. By using this Service, you are also subject to <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube's Terms of Service</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. YouTube may collect data about your video viewing activity in accordance with their own policies.</p>
+        </section>
+
+        <section>
+            <h2>4. Cookies</h2>
+            <p>RepeaTube itself does not use cookies. However, the embedded YouTube player may set cookies in accordance with Google's cookie policy.</p>
+        </section>
+
+        <section>
+            <h2>5. Analytics</h2>
+            <p>We do not use any analytics or tracking services.</p>
+        </section>
+
+        <section>
+            <h2>6. Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated date.</p>
+        </section>
+
+        <footer class="site-footer">
+            <nav class="footer-nav">
+                <a href="index.html">HOME</a>
+                <a href="terms.html">TERMS</a>
+                <a href="privacy.html">PRIVACY</a>
+            </nav>
+            <p class="footer-copy">&copy;RepeaTube <span id="footerYear"></span>. All Rights Reserved.</p>
+        </footer>
+    </div>
+    <script>
+        const y = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = y;
+        document.getElementById('footerYear').textContent = y;
+    </script>
+</body>
+</html>
