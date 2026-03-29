@@ -208,15 +208,17 @@ function checkLoop() {
 let currentSpeed = 1.0;
 
 function setSpeed(speed) {
-    currentSpeed = Math.round(Math.min(2.0, Math.max(0.25, speed)) * 100) / 100;
+    const supported = player.getAvailablePlaybackRates();
+    const clamped = Math.min(supported[supported.length - 1], Math.max(supported[0], speed));
+    currentSpeed = supported.reduce((a, b) => Math.abs(b - clamped) < Math.abs(a - clamped) ? b : a);
     player.setPlaybackRate(currentSpeed);
     document.getElementById('speedDisplay').textContent = currentSpeed.toFixed(2) + 'x';
 }
 
+document.getElementById('speedDown10').addEventListener('click', () => setSpeed(currentSpeed - 0.1));
 document.getElementById('speedDown05').addEventListener('click', () => setSpeed(currentSpeed - 0.05));
-document.getElementById('speedDown01').addEventListener('click', () => setSpeed(currentSpeed - 0.01));
-document.getElementById('speedUp01').addEventListener('click', () => setSpeed(currentSpeed + 0.01));
 document.getElementById('speedUp05').addEventListener('click', () => setSpeed(currentSpeed + 0.05));
+document.getElementById('speedUp10').addEventListener('click', () => setSpeed(currentSpeed + 0.1));
 
 // ---- 再生コントロール ----
 
